@@ -29,10 +29,5 @@ logging.warning('Warning message')
 logging.error('Error message')
 logging.critical('Critical message')
 ```
-```
-2021-05-04 12:31:48,439 DEBUG   [/Users/dorinclisu/Git/logging-config/example.py:012]    Debug message
-2021-05-04 12:31:48,439 INFO    [/Users/dorinclisu/Git/logging-config/example.py:013]    Info message
-2021-05-04 12:31:48,439 WARNING [/Users/dorinclisu/Git/logging-config/example.py:014]    Warning message
-2021-05-04 12:31:48,439 ERROR   [/Users/dorinclisu/Git/logging-config/example.py:015]    Error message
-2021-05-04 12:31:48,439 CRITICAL [/Users/dorinclisu/Git/logging-config/example.py:016]   Critical message
-```
+
+![](media/logs.png)
