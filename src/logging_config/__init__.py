@@ -24,9 +24,11 @@ class CustomColorFormatter(colorlog.ColoredFormatter):
 
 
 ###################################################################################################
+true_options = ('true', 'yes', '1')
+
 log_level:      str = os.getenv('LOG_LEVEL', 'DEBUG')
-log_timestamp: bool = os.getenv('LOG_TIMESTAMP', '').lower() in ['true', 'yes', '1']
-log_coloring:  bool = os.getenv('LOG_COLORING', 'true').lower() in ['true', 'yes', '1']
+log_timestamp: bool = os.getenv('LOG_TIMESTAMP', '').lower() in true_options
+log_coloring:  bool = os.getenv('LOG_COLORING', 'true').lower() in true_options
 log_color_map: dict = json.loads(os.getenv('LOG_COLOR_MAP', '{}'))
 
 logging_fmt: str = '{levelname:7} [{pathname}:{lineno:03d}]\t {message}'
@@ -40,7 +42,7 @@ else:
     formatter = CustomColorFormatter(fmt='{log_color}'+logging_fmt, style='{',
         log_colors={
             'DEBUG':    'thin_white',
-            'INFO':     'white',
+            #'INFO':     'white',  # leave the default white as more pure than colorlog white
             'WARNING':  'yellow',
             'ERROR':    'red',
             'CRITICAL': 'red',
