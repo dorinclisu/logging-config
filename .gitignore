@@ -4,5 +4,6 @@
 *.egg-info
 .pytest_cache
 .mypy_cache
+.logging_config
 build
 dist

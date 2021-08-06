@@ -1,7 +1,9 @@
 import json
 import logging
 import os
+import socket
 import sys
+from typing import Optional
 
 import colorlog
 
@@ -26,12 +28,39 @@ class CustomColorFormatter(colorlog.ColoredFormatter):
 ###################################################################################################
 true_options = ('true', 'yes', '1')
 
-log_level:      str = os.getenv('LOG_LEVEL', 'DEBUG')
-log_timestamp: bool = os.getenv('LOG_TIMESTAMP', '').lower() in true_options
-log_coloring:  bool = os.getenv('LOG_COLORING', 'true').lower() in true_options
-log_color_map: dict = json.loads(os.getenv('LOG_COLOR_MAP', '{}'))
+log_level:             str = os.getenv('LOG_LEVEL', 'DEBUG')
+log_timestamp:        bool = os.getenv('LOG_TIMESTAMP', '').lower() in true_options
+log_id_path: Optional[str] = os.getenv('LOG_ID_PATH')
+log_id_template:       str = os.getenv('LOG_ID_TEMPLATE', '{hostname}-{uid}')
+log_coloring:         bool = os.getenv('LOG_COLORING', 'true').lower() in true_options
+log_color_map:        dict = json.loads(os.getenv('LOG_COLOR_MAP', '{}'))
 
-logging_fmt: str = '{levelname:7} [{pathname}:{lineno:03d}]\t {message}'
+###################################################################################################
+if '/' in log_id_template or ' ' in log_id_template:
+    raise ValueError(f'Characters "/" and " " not allowed in LOG_ID_TEMPLATE ({log_id_template})')
+
+if log_id_path:
+    if not os.path.isdir(log_id_path):
+        os.makedirs(log_id_path)
+
+    uid_filepath = os.path.join(log_id_path, '.logging_config')
+    if os.path.exists(uid_filepath):
+        with open(uid_filepath, 'r') as f:
+            uid = f.read()
+    else:
+        uid = os.urandom(3).hex()
+        with open(uid_filepath, 'w') as f:
+            f.write(uid)
+
+    id = log_id_template.format(hostname=socket.gethostname(), uid=uid)
+else:
+    id = ''
+
+###################################################################################################
+if log_id_path:
+    logging_fmt = '{levelname:7} [' + id + ' {pathname}:{lineno:03d}]\t {message}'
+else:
+    logging_fmt = '{levelname:7} [{pathname}:{lineno:03d}]\t {message}'
 
 if log_timestamp:
     logging_fmt = '{asctime} ' + logging_fmt

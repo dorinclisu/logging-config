@@ -1,8 +1,11 @@
 import logging
+import os
 
 import pytest
 import requests
 
+os.environ['LOG_ID_PATH'] = '.'  # this should be inside a container volume mount (typically host bound)
+os.environ['LOG_ID_TEMPLATE'] = 'custom--{hostname}-{uid}'
 import src.logging_config
 
 
