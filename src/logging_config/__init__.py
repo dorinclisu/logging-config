@@ -52,7 +52,14 @@ if log_id_path:
         with open(uid_filepath, 'w') as f:
             f.write(uid)
 
-    id = log_id_template.format(hostname=socket.gethostname(), uid=uid)
+    try:
+        with open('/etc/hostname', 'r') as f:
+            hostname = f.read().strip(' \n')
+    except:
+        print('WARNING [logging_config] Could not read hostname from /etc/hostname, fallback to socket.gethostname()')
+        hostname = socket.gethostname()
+
+    id = log_id_template.format(hostname=hostname, uid=uid)
 else:
     id = ''
 

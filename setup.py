@@ -6,7 +6,7 @@ with open('README.md', encoding='utf-8') as file:
 
 setuptools.setup(
     name='logging-config',
-    version='0.1.1',
+    version='0.1.2',
     description='Simple logging done right',
     long_description=readme,
     long_description_content_type='text/markdown',

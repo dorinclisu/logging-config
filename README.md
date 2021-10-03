@@ -6,7 +6,8 @@ By default, Python logging is too flexible and provides many ways for beginners 
 So if you are an expert, you should consider using this format and fine tune it to your specific needs. If you are a beginner, you should definitely use it.
 
 # Installation
-- `pip install https://github.com/dorinclisu/logging-config/archive/master.zip`
+- Latest: `pip install https://github.com/dorinclisu/logging-config/archive/master.zip`
+- Tag: `pip install https://github.com/dorinclisu/logging-config/archive/x.y.z.zip`
 
 # Example usage
 Just import the package in the main file, and use the simple logging functions everywhere else.
